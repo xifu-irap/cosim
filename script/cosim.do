@@ -17,7 +17,7 @@
 #                            along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #    email                   slaurent@nanoxplore.com
-#    @file                   no_regression.do
+#    @file                   cosim.do
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #    @details                Modelsim script for no regression:
 #                                * proc run_utest: run all the unitary tests
@@ -39,6 +39,7 @@ quietly set IP_DIR "${PR_DIR}/ip/nx/${VARIANT}"
 quietly set SRC_DIR "${PR_DIR}/src"
 quietly set TB_DIR "${PR_DIR}/simu/tb"
 quietly set CFG_DIR "${PR_DIR}/simu/cosim/conf"
+quietly set DEFMEM_DIR "${PR_DIR}/simu/cosim/default_mem"
 quietly set RES_DIR "${PR_DIR}/simu/cosim/result"
 quietly set SC_DIR "${PR_DIR}/simu/script"
 quietly set VIVADO_DIR "${XLX_LIB_DIR}/vivado"
@@ -66,10 +67,10 @@ proc run_utest {args} {
    global SRC_DIR
    global TB_DIR
    global CFG_DIR
+   global DEFMEM_DIR
    global RES_DIR
    global NR_FILE
    global SC_DIR
-   global NR_FILE
    global PREF_UTEST
    global SUFF_UTEST
 
@@ -115,7 +116,12 @@ proc run_utest {args} {
 
          } else {
 
-            # Copy FPASIM memory content in simulation directory
+            # Copy the default of FPASIM memories in simulation directory
+            #foreach def_mem_file [lsort -dictionary [glob -directory ${DEFMEM_DIR} *.mem]] {
+            #   file copy -force $def_mem_file .
+            #}
+
+            # Replace the default content with the specific FPASIM memories if specific files exist
             foreach mem_file [glob -directory "${CFG_DIR}/[file rootname [file tail $file]]" -nocomplain *] {
                file copy -force $mem_file .
             }
@@ -203,8 +209,14 @@ proc run_utest {args} {
             vsim -t ps -lib work work.${cfg_file}
 
          } else {
+			
+			# Copy default FPASIM memory content in simulation directory
+            foreach def_mem_file [lsort -dictionary [glob -directory ${DEFMEM_DIR} -nocomplain *.mem]] {
+               file copy -force $def_mem_file .
+            }
+			#file copy -force ${DEFMEM_DIR}/*.mem .
 
-            # Copy FPASIM memory content in simulation directory
+            # Copy test specific FPASIM memory content in simulation directory if it exist
             foreach mem_file [glob -directory "${CFG_DIR}/${cfg_file}" -nocomplain *] {
                file copy -force $mem_file .
             }
@@ -221,7 +233,6 @@ proc run_utest {args} {
          add wave -format Logic                    -group "Inputs"                              sim/:top_dmx_tb:I_top_dmx:i_arst_n
          add wave -format Logic                    -group "Inputs"                              sim/:top_dmx_tb:I_top_dmx:i_clk_ref
          add wave -format Logic                    -group "Inputs"                              sim/:top_dmx_tb:I_top_dmx:i_sync
-         add wave -format Logic                    -group "Inputs"                              sim/:top_dmx_tb:I_top_dmx:i_ras_data_valid
 
          add wave -format Logic                    -group "Local Resets"                        sim/:top_dmx_tb:I_top_dmx:G_column_mgt(0):I_squid_adc_mgt:i_rst_sqm_adc_dac
          add wave -format Logic                    -group "Local Resets"                        sim/:top_dmx_tb:I_top_dmx:G_column_mgt(1):I_squid_adc_mgt:i_rst_sqm_adc_dac
@@ -281,6 +292,143 @@ proc run_utest {args} {
          add wave -format Logic                    -group "0 - FPASIM"                          sim/:top_dmx_tb:fpa_cmd_rdy(0)
          add wave -format Logic -Radix hexadecimal -group "0 - FPASIM"                          sim/:top_dmx_tb:fpa_cmd(0)
          add wave -format Logic                    -group "0 - FPASIM"                          sim/:top_dmx_tb:fpa_cmd_valid(0)
+
+         add wave -group "0 - I_fpasim_model"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:i_adc_clk_phase
+         add wave -group "0 - I_fpasim_model"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:i_adc_clk
+         add wave -group "0 - I_fpasim_model"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:i_adc0_real
+         add wave -group "0 - I_fpasim_model"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:i_adc1_real
+
+         add wave -group "0 - convert_adc0"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_ads62p49_top:inst_ads62p49_convert_adc0:f_adc_tmp0
+         add wave -group "0 - convert_adc0"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_ads62p49_top:inst_ads62p49_convert_adc0:s_adc_tmp0
+         add wave -group "0 - convert_adc0"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_ads62p49_top:inst_ads62p49_convert_adc0:adc_tmp1
+         add wave -group "0 - convert_adc0"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_ads62p49_top:inst_ads62p49_convert_adc0:adc_tmp2
+
+
+         add wave -group "0 - io_adc_single"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_io_adc_single:i_adc_clk_p
+         add wave -group "0 - io_adc_single"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_io_adc_single:i_io_rst
+         add wave -group "0 - io_adc_single"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_io_adc_single:io_rst_r1
+         add wave -group "0 - io_adc_single"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_io_adc_single:bitslip_r1
+         add wave -group "0 - io_adc_single"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_io_adc_single:clk_div
+         add wave -group "0 - io_adc_single"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_io_adc_single:adc_a_word_tmp2
+         add wave -group "0 - io_adc_single"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_io_adc_single:adc_b_word_tmp2
+
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:i_wr_clk
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:i_wr_rst
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:i_wr_en
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:i_wr_din
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:o_wr_full
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:o_wr_rst_busy
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:i_rd_clk
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:i_rd_en
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:o_rd_dout_valid
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:o_rd_dout
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:o_rd_empty
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:o_rd_rst_busy
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:o_errors_sync
+         add wave -group "0 - io_adc"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_io_top:inst_io_adc:inst_fifo_async_with_error_adc_a:o_empty_sync
+
+
+
+
+         add wave -group "0 - fpasim_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:i_adc_valid
+         add wave -group "0 - fpasim_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:i_adc_amp_squid_offset_correction
+         add wave -group "0 - fpasim_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:i_adc_mux_squid_feedback
+
+         add wave -group "0 - tes_pulse_shape_manager" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:i_cmd_valid
+         add wave -group "0 - tes_pulse_shape_manager" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:i_cmd_pulse_height
+         add wave -group "0 - tes_pulse_shape_manager" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:i_cmd_pixel_id
+         add wave -group "0 - tes_pulse_shape_manager" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:i_cmd_time_shift
+		 
+         add wave -group "0 - tes_pulse_shape_manager"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:o_pulse_sof
+add wave -group "0 - tes_pulse_shape_manager"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:o_pulse_eof
+add wave -group "0 - tes_pulse_shape_manager"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:o_pixel_sof
+add wave -group "0 - tes_pulse_shape_manager"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:o_pixel_eof
+add wave -group "0 - tes_pulse_shape_manager" -radix unsigned sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:o_pixel_id
+add wave -group "0 - tes_pulse_shape_manager"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:o_pixel_valid
+add wave -group "0 - tes_pulse_shape_manager" -format Analog-Step -height 74 -max 7633.0 sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:o_pixel_result
+add wave -group "0 - tes_pulse_shape_manager"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:sign_value_tmp6
+
+add wave -group "0 - tes_pulse_shape_manager_mult_add" -expand -group counte_sample_pulse_shape  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_add_ufixed:i_a
+add wave -group "0 - tes_pulse_shape_manager_mult_add" -expand -group time_shift_max sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_add_ufixed:i_b
+add wave -group "0 - tes_pulse_shape_manager_mult_add" -expand -group time_shift sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_add_ufixed:i_c
+add wave -group "0 - tes_pulse_shape_manager_mult_add" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_add_ufixed:a_r1
+add wave -group "0 - tes_pulse_shape_manager_mult_add" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_add_ufixed:b_r1
+add wave -group "0 - tes_pulse_shape_manager_mult_add" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_add_ufixed:c_r1
+add wave -group "0 - tes_pulse_shape_manager_mult_add" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_add_ufixed:mult_r2
+add wave -group "0 - tes_pulse_shape_manager_mult_add" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_add_ufixed:c_r2
+add wave -group "0 - tes_pulse_shape_manager_mult_add" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_add_ufixed:res_r3
+add wave -group "0 - tes_pulse_shape_manager_mult_add"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_add_ufixed:o_s
+
+add wave -group "0 - tes_pulse_shape_manager_mult_sub"  -expand -group ram_tes_pulse_shape_out sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_sub_sfixed:i_a
+add wave -group "0 - tes_pulse_shape_manager_mult_sub"  -expand -group pulse_height sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_sub_sfixed:i_b
+add wave -group "0 - tes_pulse_shape_manager_mult_sub"  -expand -group ram_tes_std_state_out sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_sub_sfixed:i_c
+add wave -group "0 - tes_pulse_shape_manager_mult_sub" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_sub_sfixed:a_r1
+add wave -group "0 - tes_pulse_shape_manager_mult_sub" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_sub_sfixed:b_r1
+add wave -group "0 - tes_pulse_shape_manager_mult_sub" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_sub_sfixed:c_r1
+add wave -group "0 - tes_pulse_shape_manager_mult_sub" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_sub_sfixed:mult_r2
+add wave -group "0 - tes_pulse_shape_manager_mult_sub" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_sub_sfixed:c_r2
+add wave -group "0 - tes_pulse_shape_manager_mult_sub" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_sub_sfixed:res_r3
+add wave -group "0 - tes_pulse_shape_manager_mult_sub"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_tes_top:inst_tes_pulse_shape_manager:inst_mult_sub_sfixed:o_s
+
+
+add wave -group "0 - mux_squid"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:i_inter_squid_gain
+add wave -group "0 - mux_squid" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:i_pixel_sof
+add wave -group "0 - mux_squid" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:i_pixel_eof
+add wave -group "0 - mux_squid" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:i_pixel_valid
+add wave -group "0 - mux_squid" -expand -group in -radix unsigned sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:i_pixel_id
+add wave -group "0 - mux_squid" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:i_pixel_result
+add wave -group "0 - mux_squid" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:i_mux_squid_feedback
+
+add wave -group "0 - mux_squid"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:o_pixel_sof
+add wave -group "0 - mux_squid"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:o_pixel_eof
+add wave -group "0 - mux_squid"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:o_pixel_valid
+add wave -group "0 - mux_squid" -radix unsigned sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:o_pixel_id
+add wave -group "0 - mux_squid" -format Analog-Step -height 74 -max 65532.999999999993  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:o_pixel_result
+
+add wave -group "0 - mux_squid_sub_sfixed" -expand -group tes_out -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:inst_sub_sfixed_mux_squid:a_r1
+add wave -group "0 - mux_squid_sub_sfixed" -expand -group adc_mux_squid_feedback -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:inst_sub_sfixed_mux_squid:b_r1
+add wave -group "0 - mux_squid_sub_sfixed" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:inst_sub_sfixed_mux_squid:res_r2
+add wave -group "0 - mux_squid_sub_sfixed"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:inst_sub_sfixed_mux_squid:o_s
+
+add wave -group "0 - mux_squid_mult_add_sfixed" -group inter_squid_gain -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:inst_mult_add_sfixed_mux_squid_offset_and_tf:a_r1
+add wave -group "0 - mux_squid_mult_add_sfixed" -group ram_mux_squid_tf_out -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:inst_mult_add_sfixed_mux_squid_offset_and_tf:b_r1
+add wave -group "0 - mux_squid_mult_add_sfixed" -group ram_mux_squid_offset_out -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:inst_mult_add_sfixed_mux_squid_offset_and_tf:c_r1
+add wave -group "0 - mux_squid_mult_add_sfixed" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:inst_mult_add_sfixed_mux_squid_offset_and_tf:mult_r2
+add wave -group "0 - mux_squid_mult_add_sfixed" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:inst_mult_add_sfixed_mux_squid_offset_and_tf:c_r2
+add wave -group "0 - mux_squid_mult_add_sfixed" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:inst_mult_add_sfixed_mux_squid_offset_and_tf:res_r3
+add wave -group "0 - mux_squid_mult_add_sfixed"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_mux_squid_top:inst_mux_squid:inst_mult_add_sfixed_mux_squid_offset_and_tf:o_s
+
+add wave -group "0 - amp_squid" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:i_pixel_sof
+add wave -group "0 - amp_squid" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:i_pixel_eof
+add wave -group "0 - amp_squid" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:i_pixel_valid
+add wave -group "0 - amp_squid" -expand -group in -radix unsigned sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:i_pixel_id
+add wave -group "0 - amp_squid" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:i_pixel_result
+add wave -group "0 - amp_squid" -expand -group in sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:i_amp_squid_offset_correction
+add wave -group "0 - amp_squid"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:o_pixel_sof
+add wave -group "0 - amp_squid"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:o_pixel_eof
+add wave -group "0 - amp_squid"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:o_pixel_valid
+add wave -group "0 - amp_squid" -radix unsigned sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:o_pixel_id
+add wave -group "0 - amp_squid" -format Analog-Step -height 74 -max 32163.000000000004 -min -32008.0  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:o_pixel_result
+
+add wave -group "0 - amp_squid_sub_sfixed" -group mux_squid_out -radix sfixed  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_sub_sfixed_amp_squid:a_tmp
+add wave -group "0 - amp_squid_sub_sfixed" -group adc_amp_squid_correction -radix sfixed  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_sub_sfixed_amp_squid:b_tmp
+add wave -group "0 - amp_squid_sub_sfixed" -radix sfixed  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_sub_sfixed_amp_squid:a_r1
+add wave -group "0 - amp_squid_sub_sfixed" -radix sfixed  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_sub_sfixed_amp_squid:b_r1
+add wave -group "0 - amp_squid_sub_sfixed" -radix sfixed  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_sub_sfixed_amp_squid:res_r2
+add wave -group "0 - amp_squid_sub_sfixed"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_sub_sfixed_amp_squid:o_s
+
+add wave -group "0 - amp_squid_mult_sfixed" -group ram_amp_squid_tf_out -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:a_tmp
+add wave -group "0 - amp_squid_mult_sfixed" -group fpasim_gain -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:b_tmp
+add wave -group "0 - amp_squid_mult_sfixed" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:a_r1
+add wave -group "0 - amp_squid_mult_sfixed" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:b_r1
+add wave -group "0 - amp_squid_mult_sfixed" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:mult_r2
+add wave -group "0 - amp_squid_mult_sfixed" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:p_r3
+add wave -group "0 - amp_squid_mult_sfixed"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:o_s
+
+add wave -group "0 - dac3283_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_dac3283_top:dac0_valid
+add wave -group "0 - dac3283_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_dac3283_top:dac0
+add wave -group "0 - dac3283_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:o_dac_real_valid
+add wave -group "0 - dac3283_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:o_dac_real
 
          add wave -noupdate -divider "Channel 1"
          add wave -format Analog-step -min -1.0 -max 1.0 \

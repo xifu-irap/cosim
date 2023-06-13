@@ -26,13 +26,45 @@ COMM
 COMM ==============================================================================================
 COMM   Writing a new value first pixel in feedback open loop column 0 memory
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_MUX_SQ_FB0(0)-2000 W
-WCMD W-C0_MUX_SQ_FB0(33)-0000 W
+WCMD W-C0_MUX_SQ_FB0(0)-2260 W
+WCMD W-C0_MUX_SQ_FB0(1)-2260 W
+WCMD W-C0_MUX_SQ_FB0(2)-2260 W
+WCMD W-C0_MUX_SQ_FB0(3)-2260 W
+WCMD W-C0_MUX_SQ_FB0(4)-2260 W
+WCMD W-C0_MUX_SQ_FB0(5)-2260 W
+WCMD W-C0_MUX_SQ_FB0(6)-2260 W
+WCMD W-C0_MUX_SQ_FB0(7)-2260 W
+WCMD W-C0_MUX_SQ_FB0(8)-2260 W
+WCMD W-C0_MUX_SQ_FB0(9)-2260 W
+WCMD W-C0_MUX_SQ_FB0(10)-2260 W
+WCMD W-C0_MUX_SQ_FB0(11)-2260 W
+WCMD W-C0_MUX_SQ_FB0(12)-2260 W
+WCMD W-C0_MUX_SQ_FB0(13)-2260 W
+WCMD W-C0_MUX_SQ_FB0(14)-2260 W
+WCMD W-C0_MUX_SQ_FB0(15)-2260 W
+WCMD W-C0_MUX_SQ_FB0(16)-2260 W
+WCMD W-C0_MUX_SQ_FB0(17)-2260 W
+WCMD W-C0_MUX_SQ_FB0(18)-2260 W
+WCMD W-C0_MUX_SQ_FB0(19)-2260 W
+WCMD W-C0_MUX_SQ_FB0(20)-2260 W
+WCMD W-C0_MUX_SQ_FB0(21)-2260 W
+WCMD W-C0_MUX_SQ_FB0(22)-2260 W
+WCMD W-C0_MUX_SQ_FB0(23)-2260 W
+WCMD W-C0_MUX_SQ_FB0(24)-2260 W
+WCMD W-C0_MUX_SQ_FB0(25)-2260 W
+WCMD W-C0_MUX_SQ_FB0(26)-2260 W
+WCMD W-C0_MUX_SQ_FB0(27)-2260 W
+WCMD W-C0_MUX_SQ_FB0(28)-2260 W
+WCMD W-C0_MUX_SQ_FB0(29)-2260 W
+WCMD W-C0_MUX_SQ_FB0(30)-2260 W
+WCMD W-C0_MUX_SQ_FB0(31)-2260 W
+WCMD W-C0_MUX_SQ_FB0(32)-2260 W
+WCMD W-C0_MUX_SQ_FB0(33)-2260 W
 COMM
 COMM ==============================================================================================
 COMM   Select pulse shaping without filter
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_FB1_PULSE_SHAPING_SELECTION-0000 W
+WCMD W-C0_FB1_PULSE_SHAPING_SELECTION-4000 W
 COMM
 COMM ==============================================================================================
 COMM   Switch on Squid MUX feedback column 0
@@ -51,8 +83,21 @@ WUDI fpa_conf_busy(0) 0
 WUDI fpa_conf_busy(1) 0
 WUDI fpa_conf_busy(2) 0
 WUDI fpa_conf_busy(3) 0
+COMM ==============================================================================================
+COMM   Define AMP_squid_correction
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-SQ_AMP_OFFSET_MODE-0001 W
+WCMD W-C0_AMP_SQ_OFFSET_COARSE-0FFF W
 COMM
 COMM ==============================================================================================
-COMM   Send a pulse on FPASIM column 0
+COMM   Send pulses on FPASIM column 0
 COMM ----------------------------------------------------------------------------------------------
-WFMP 0 0000_0100
+WFMP 0 8000_8A3D
+COMM ==============================================================================================
+COMM   wait before launching a new command
+COMM ----------------------------------------------------------------------------------------------
+WAIT 600 us
+COMM ==============================================================================================
+COMM   Send pulses on FPASIM column 0
+COMM ----------------------------------------------------------------------------------------------
+WFMP 0 8000_8A3D
