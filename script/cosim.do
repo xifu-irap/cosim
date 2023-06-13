@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #                            This file is part of the ATHENA X-IFU DRE Time Domain Multiplexing Firmware.
 #
-#                            dmx-ngl-fw is free software: you can redistribute it and/or modify
+#                            dmx-fw is free software: you can redistribute it and/or modify
 #                            it under the terms of the GNU General Public License as published by
 #                            the Free Software Foundation, either version 3 of the License, or
 #                            (at your option) any later version.
@@ -27,7 +27,7 @@
 #### Parameters ####
 quietly set VARIANT "NG-LARGE"
 quietly set NXMAP3_MODEL_PATH "../modelsim"
-quietly set PR_DIR "../project/dmx-NGL-fw"
+quietly set PR_DIR "../project/dmx-fw"
 quietly set FPASIM_DIR "../project/fpasim-fw"
 quietly set XLX_LIB_DIR "../xilinx_lib"
 quietly set NR_FILE "no_regression.csv"
