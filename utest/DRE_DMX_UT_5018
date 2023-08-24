@@ -1,0 +1,123 @@
+COMM **********************************************************************************************
+COMM   Test: Coupling DEMUX/FPASIM simple test
+COMM **********************************************************************************************
+COMM This test is used to characterise the Feedback delay
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Switch ADC voltage on FPASIM output
+COMM ----------------------------------------------------------------------------------------------
+WDIS sw_adc_vin(1) 1
+COMM
+COMM ==============================================================================================
+COMM   Asynchronous reset activated
+COMM ----------------------------------------------------------------------------------------------
+WDIS arst_n 0
+WAIT 1500 ns
+COMM
+COMM ==============================================================================================
+COMM   Asynchronous reset deactivated
+COMM ----------------------------------------------------------------------------------------------
+WDIS arst_n 1
+COMM
+COMM ==============================================================================================
+COMM   Wait internal reset deactivated
+COMM ----------------------------------------------------------------------------------------------
+WUDI rst 0
+COMM
+COMM ==============================================================================================
+COMM   Setting the FB0 to 0 except for pixel 0
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_MUX_SQ_FB0(0)-03FF W
+WCMD W-C0_MUX_SQ_FB0(1)-0200 W
+WCMD W-C0_MUX_SQ_FB0(2)-0200 W
+WCMD W-C0_MUX_SQ_FB0(3)-0200 W
+WCMD W-C0_MUX_SQ_FB0(4)-0200 W
+WCMD W-C0_MUX_SQ_FB0(5)-0200 W
+WCMD W-C0_MUX_SQ_FB0(6)-0200 W
+WCMD W-C0_MUX_SQ_FB0(7)-0200 W
+WCMD W-C0_MUX_SQ_FB0(8)-0200 W
+WCMD W-C0_MUX_SQ_FB0(9)-0200 W
+WCMD W-C0_MUX_SQ_FB0(10)-0200 W
+WCMD W-C0_MUX_SQ_FB0(11)-0200 W
+WCMD W-C0_MUX_SQ_FB0(12)-0200 W
+WCMD W-C0_MUX_SQ_FB0(13)-0200 W
+WCMD W-C0_MUX_SQ_FB0(14)-0200 W
+WCMD W-C0_MUX_SQ_FB0(15)-0200 W
+WCMD W-C0_MUX_SQ_FB0(16)-0200 W
+WCMD W-C0_MUX_SQ_FB0(17)-0200 W
+WCMD W-C0_MUX_SQ_FB0(18)-0200 W
+WCMD W-C0_MUX_SQ_FB0(19)-0200 W
+WCMD W-C0_MUX_SQ_FB0(20)-0200 W
+WCMD W-C0_MUX_SQ_FB0(21)-0200 W
+WCMD W-C0_MUX_SQ_FB0(22)-0200 W
+WCMD W-C0_MUX_SQ_FB0(23)-0200 W
+WCMD W-C0_MUX_SQ_FB0(24)-0200 W
+WCMD W-C0_MUX_SQ_FB0(25)-0200 W
+WCMD W-C0_MUX_SQ_FB0(26)-0200 W
+WCMD W-C0_MUX_SQ_FB0(27)-0200 W
+WCMD W-C0_MUX_SQ_FB0(28)-0200 W
+WCMD W-C0_MUX_SQ_FB0(29)-0200 W
+WCMD W-C0_MUX_SQ_FB0(30)-0200 W
+WCMD W-C0_MUX_SQ_FB0(31)-0200 W
+WCMD W-C0_MUX_SQ_FB0(32)-0200 W
+WCMD W-C0_MUX_SQ_FB0(33)-0200 W
+COMM
+COMM ==============================================================================================
+COMM   Select pulse shaping
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_FB1_PULSE_SHAPING_SELECTION-2000 W
+COMM
+COMM ==============================================================================================
+COMM   Apply a delay equal to 0 on the mux_squid_feedback signal
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_MUX_SQ_FB_DELAY-0000 W
+COMM
+COMM ==============================================================================================
+COMM   Switch on Squid MUX feedback column 0
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-SQ_MUX_FB_ON_OFF-0001 W
+COMM
+COMM ==============================================================================================
+COMM   Configure AMP SQUID DAC LSB column 1
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_AMP_SQ_OFFSET_LSB-0FFF W
+COMM 
+COMM ==============================================================================================
+COMM   Configure AMP SQUID lockpoint Offset column 1
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_AMP_SQ_OFFSET_COARSE-08C0 W
+COMM
+COMM ==============================================================================================
+COMM   Send command SQ_AMP_OFFSET_MODE column 1 to Off, column 2 to open loop
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-SQ_AMP_OFFSET_MODE-0001 W
+COMM
+COMM ==============================================================================================
+COMM   Wait end FPASIM configuration
+COMM ----------------------------------------------------------------------------------------------
+WUDI fpa_conf_busy(0) 0
+WUDI fpa_conf_busy(1) 0
+WUDI fpa_conf_busy(2) 0
+WUDI fpa_conf_busy(3) 0
+COMM
+WAIT 20 us
+COMM
+COMM ==============================================================================================
+COMM   Activate science data transmit in dump mode
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0004 W
+WAIT 200 us
+COMM
+COMM ==============================================================================================
+COMM   Apply a delay to align the pixel 0' mux_squid_feedback edges with the pixel 0' error signal edges
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_MUX_SQ_FB_DELAY-03D4 W
+WAIT 20 us
+COMM
+COMM ==============================================================================================
+COMM   Activate science data transmit in dump mode
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0004 W
+WAIT 200 us
+COMM
