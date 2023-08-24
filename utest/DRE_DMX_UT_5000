@@ -32,12 +32,12 @@ COMM
 COMM ==============================================================================================
 COMM   Select pulse shaping without filter
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_FB1_PULSE_SHAPING_SELECTION-0000 W
+WCMD W-C0_PULSE_SHAPING_SELECTION-0000 W
 COMM
 COMM ==============================================================================================
 COMM   Switch on Squid MUX feedback column 0
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-SQ_MUX_FB_ON_OFF-0001 W
+WCMD W-MUX_SQ_FB_ON_OFF-0001 W
 COMM
 COMM ==============================================================================================
 COMM   Activate science data transmit in error signal mode

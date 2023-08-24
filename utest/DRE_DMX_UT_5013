@@ -64,12 +64,12 @@ COMM
 COMM ==============================================================================================
 COMM   Select pulse shaping without filter
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_FB1_PULSE_SHAPING_SELECTION-4000 W
+WCMD W-C0_PULSE_SHAPING_SELECTION-4000 W
 COMM
 COMM ==============================================================================================
 COMM   Switch on Squid MUX feedback column 0
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-SQ_MUX_FB_ON_OFF-0001 W
+WCMD W-MUX_SQ_FB_ON_OFF-0001 W
 COMM
 COMM
 COMM ==============================================================================================
@@ -89,9 +89,9 @@ COMM ---------------------------------------------------------------------------
 WCMD W-C0_AMP_SQ_OFFSET_COARSE-08C0 W
 COMM
 COMM ==============================================================================================
-COMM   Send command SQ_AMP_OFFSET_MODE column 1 to Off, column 2 to open loop
+COMM   Send command AMP_SQ_OFFSET_MODE column 1 to Off, column 2 to open loop
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-SQ_AMP_OFFSET_MODE-0001 W
+WCMD W-AMP_SQ_OFFSET_MODE-0001 W
 COMM
 COMM ==============================================================================================
 COMM   Writing a new table in AMP SQUID lockpoint value column 1 memory

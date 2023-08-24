@@ -64,7 +64,7 @@ COMM
 COMM ==============================================================================================
 COMM   Select pulse shaping without filter
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_FB1_PULSE_SHAPING_SELECTION-4000 W
+WCMD W-C0_PULSE_SHAPING_SELECTION-4000 W
 COMM
 COMM ==============================================================================================
 COMM   Apply a delay on the mux_squid_feedback signal
@@ -74,7 +74,7 @@ COMM
 COMM ==============================================================================================
 COMM   Switch on Squid MUX feedback column 0
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-SQ_MUX_FB_ON_OFF-0001 W
+WCMD W-MUX_SQ_FB_ON_OFF-0001 W
 COMM
 COMM ==============================================================================================
 COMM   Activate science data transmit in error signal mode
@@ -91,7 +91,7 @@ WUDI fpa_conf_busy(3) 0
 COMM ==============================================================================================
 COMM   Define AMP_squid_correction
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-SQ_AMP_OFFSET_MODE-0001 W
+WCMD W-AMP_SQ_OFFSET_MODE-0001 W
 WCMD W-C0_AMP_SQ_OFFSET_COARSE-0FFF W
 COMM
 COMM ==============================================================================================
