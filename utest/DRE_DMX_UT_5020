@@ -1,0 +1,125 @@
+COMM **********************************************************************************************
+COMM   Test: Coupling DEMUX/FPASIM simple test
+COMM **********************************************************************************************
+COMM This test is used to characterise the AMP SQUID transfer function
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Switch ADC voltage on FPASIM output
+COMM ----------------------------------------------------------------------------------------------
+WDIS sw_adc_vin(1) 1
+COMM
+COMM ==============================================================================================
+COMM   Asynchronous reset activated
+COMM ----------------------------------------------------------------------------------------------
+WDIS arst_n 0
+WAIT 1500 ns
+COMM
+COMM ==============================================================================================
+COMM   Asynchronous reset deactivated
+COMM ----------------------------------------------------------------------------------------------
+WDIS arst_n 1
+COMM
+COMM ==============================================================================================
+COMM   Wait internal reset deactivated
+COMM ----------------------------------------------------------------------------------------------
+WUDI rst 0
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Configure AMP SQUID fast DAC (LSB weight and MUX value) in column 0
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_AMP_SQ_OFFSET_LSB-0FFF W
+COMM
+COMM -----  Writing a table for AMP SQUID offset fine in column 0 (MUX)
+COMM -----  The goal is to shift the TEST_PATTERN done on AMP_SQ_OFFSET_COARSE during a Frame
+WCMD W-C0_AMP_SQ_OFFSET_FINE(0)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(1)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(2)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(3)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(4)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(5)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(6)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(7)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(8)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(9)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(10)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(11)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(12)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(13)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(14)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(15)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(16)-0000 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(17)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(18)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(19)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(20)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(21)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(22)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(23)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(24)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(25)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(26)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(27)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(28)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(29)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(30)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(31)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(32)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(33)-0007 W
+COMM
+COMM ==============================================================================================
+COMM   TEST_PATTERN: writing a new table to be applied on AMP_SQ_OFFSET_COARSE
+COMM ----------------------------------------------------------------------------------------------
+COMM format of parameter a is s(14,0)
+COMM Region 1/5: Flat @-8192, duration = (1+0)x8 frames
+WCMD W-TEST_PATTERN(0)-8000 W
+WCMD W-TEST_PATTERN(1)-0000 W
+WCMD W-TEST_PATTERN(2)-0000 W
+WCMD W-TEST_PATTERN(3)-0008 W
+COMM Region 2/5: Flat @-4096, duration = (1+0)x8 frames
+WCMD W-TEST_PATTERN(4)-C000 W
+WCMD W-TEST_PATTERN(5)-0000 W
+WCMD W-TEST_PATTERN(6)-0000 W
+WCMD W-TEST_PATTERN(7)-0008 W
+COMM Region 3/5: Flat @0, duration = (1+0)x16 frames
+WCMD W-TEST_PATTERN(8)-0000 W
+WCMD W-TEST_PATTERN(9)-0000 W
+WCMD W-TEST_PATTERN(10)-0000 W
+WCMD W-TEST_PATTERN(11)-0010 W
+COMM Region 4/5: Flat @4095, duration = (1+0)x8 frames
+WCMD W-TEST_PATTERN(12)-4000 W
+WCMD W-TEST_PATTERN(13)-0000 W
+WCMD W-TEST_PATTERN(14)-0000 W
+WCMD W-TEST_PATTERN(15)-0008 W
+COMM Region 5/5: Flat @8192, duration = (1+0)x8 frames
+WCMD W-TEST_PATTERN(16)-7FFF W
+WCMD W-TEST_PATTERN(17)-0000 W
+WCMD W-TEST_PATTERN(18)-0000 W
+WCMD W-TEST_PATTERN(19)-0008 W
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Switch off Squid MUX feedback (all columns)
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-MUX_SQ_FB_ON_OFF-0000 W
+COMM
+COMM ==============================================================================================
+COMM   Wait end FPASIM configuration
+COMM ----------------------------------------------------------------------------------------------
+WUDI fpa_conf_busy(0) 0
+WUDI fpa_conf_busy(1) 0
+WUDI fpa_conf_busy(2) 0
+WUDI fpa_conf_busy(3) 0
+COMM
+WAIT 20 us
+COMM
+COMM ==============================================================================================
+COMM   Send command SQ_AMP_OFFSET_MODE to test pattern on all columns,
+COMM   TEST_PATTERN will be applied on AMP_SQ_OFFSET_COARSE
+COMM   Enable test pattern generation (1 time), Send command DATA_ACQ_MODE to error signal
+COMM ----------------------------------------------------------------------------------------------
+WUDI sync 1
+WCMD W-AMP_SQ_OFFSET_MODE-3333 W
+WCMD W-TEST_PATTERN_ENABLE-0021 W
+WCMD W-DATA_ACQ_MODE-0002 W
