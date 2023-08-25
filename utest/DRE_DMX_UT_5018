@@ -66,7 +66,7 @@ COMM
 COMM ==============================================================================================
 COMM   Select pulse shaping
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_FB1_PULSE_SHAPING_SELECTION-2000 W
+WCMD W-C0_PULSE_SHAPING_SELECTION-2000 W
 COMM
 COMM ==============================================================================================
 COMM   Apply a delay equal to 0 on the mux_squid_feedback signal
@@ -76,7 +76,7 @@ COMM
 COMM ==============================================================================================
 COMM   Switch on Squid MUX feedback column 0
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-SQ_MUX_FB_ON_OFF-0001 W
+WCMD W-MUX_SQ_FB_ON_OFF-0001 W
 COMM
 COMM ==============================================================================================
 COMM   Configure AMP SQUID DAC LSB column 1
@@ -91,7 +91,7 @@ COMM
 COMM ==============================================================================================
 COMM   Send command SQ_AMP_OFFSET_MODE column 1 to Off, column 2 to open loop
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-SQ_AMP_OFFSET_MODE-0001 W
+WCMD W-AMP_SQ_OFFSET_MODE-0001 W
 COMM
 COMM ==============================================================================================
 COMM   Wait end FPASIM configuration

@@ -417,14 +417,6 @@ add wave -group "0 - amp_squid_sub_sfixed" -radix sfixed  sim/:top_dmx_tb:G_colu
 add wave -group "0 - amp_squid_sub_sfixed" -radix sfixed  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_sub_sfixed_amp_squid:res_r2
 add wave -group "0 - amp_squid_sub_sfixed"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_sub_sfixed_amp_squid:o_s
 
-add wave -group "0 - amp_squid_mult_sfixed" -group ram_amp_squid_tf_out -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:a_tmp
-add wave -group "0 - amp_squid_mult_sfixed" -group fpasim_gain -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:b_tmp
-add wave -group "0 - amp_squid_mult_sfixed" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:a_r1
-add wave -group "0 - amp_squid_mult_sfixed" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:b_r1
-add wave -group "0 - amp_squid_mult_sfixed" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:mult_r2
-add wave -group "0 - amp_squid_mult_sfixed" -radix sfixed sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:p_r3
-add wave -group "0 - amp_squid_mult_sfixed"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_amp_squid_top:inst_amp_squid:inst_mult_sfixed_amp_squid_correction_and_tf:o_s
-
 add wave -group "0 - dac3283_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_dac3283_top:dac0_valid
 add wave -group "0 - dac3283_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_dac3283_top:dac0
 add wave -group "0 - dac3283_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:o_dac_real_valid
