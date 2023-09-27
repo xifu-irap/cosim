@@ -27,15 +27,9 @@ WUDI rst 0
 COMM
 COMM
 COMM ==============================================================================================
-COMM   Apply the delay correction on the MUX SQUID feedback
-COMM   to align the pixel 0' mux_squid_feedback edges with the pixel 0' error signal edges
+COMM   Delay corrections:
+COMM   No delay corrections are needed for this test
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_MUX_SQ_FB_DELAY-03D4 W
-COMM
-COMM ==============================================================================================
-COMM   Apply the delay correction on the amp_squid_offset signal
-COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-03D4 W
 COMM
 COMM
 COMM
@@ -82,7 +76,7 @@ WCMD W-C0_AMP_SQ_OFFSET_FINE(32)-0007 W
 WCMD W-C0_AMP_SQ_OFFSET_FINE(33)-0007 W
 COMM
 COMM ==============================================================================================
-COMM   TEST_PATTERN: writing a new table to be applied on AMP_SQ_OFFSET_COARSE
+COMM   TEST_PATTERN: writing a new table to be applied on AMP_SQ_OFFSET_COARSE (slow DAC)
 COMM ----------------------------------------------------------------------------------------------
 COMM format of parameter a is s(14,0)
 COMM Region 1/5: Flat @-8192, duration = (1+0)x1 frames
@@ -117,6 +111,13 @@ COMM   Switch off Squid MUX feedback (all columns)
 COMM ----------------------------------------------------------------------------------------------
 WCMD W-MUX_SQ_FB_ON_OFF-0000 W
 COMM
+COMM
+COMM ==============================================================================================
+COMM   Setting BOXCAR LENGTH to 1+3 samples
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-BOXCAR_LENGTH-0003 W
+COMM
+COMM
 COMM ==============================================================================================
 COMM   Wait end FPASIM configuration
 COMM ----------------------------------------------------------------------------------------------
@@ -130,7 +131,8 @@ COMM
 COMM ==============================================================================================
 COMM   Send command SQ_AMP_OFFSET_MODE to test pattern on all columns,
 COMM   TEST_PATTERN will be applied on AMP_SQ_OFFSET_COARSE
-COMM   Enable test pattern generation (1 time), Send command DATA_ACQ_MODE to error signal
+COMM   Enable test pattern generation (1 time)
+COMM   Send command DATA_ACQ_MODE to error signal
 COMM ----------------------------------------------------------------------------------------------
 WUDI sync 1
 WCMD W-AMP_SQ_OFFSET_MODE-3333 W

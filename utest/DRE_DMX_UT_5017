@@ -1,7 +1,7 @@
 COMM **********************************************************************************************
 COMM   Test: Coupling DEMUX/FPASIM simple test
 COMM **********************************************************************************************
-COMM This test is used to generate an ADC dump file
+COMM This test is used to characterize the sampling delay
 COMM
 COMM
 COMM ==============================================================================================

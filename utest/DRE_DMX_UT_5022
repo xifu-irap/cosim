@@ -1,0 +1,218 @@
+COMM **********************************************************************************************
+COMM   Test: Expertise measurement, AMP_SQ V/phi curve
+COMM **********************************************************************************************
+COMM This test is used to characterise the MUX SQUID transfer function
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Switch ADC voltage on FPASIM output
+COMM ----------------------------------------------------------------------------------------------
+WDIS sw_adc_vin(1) 1
+COMM
+COMM ==============================================================================================
+COMM   Asynchronous reset activated
+COMM ----------------------------------------------------------------------------------------------
+WDIS arst_n 0
+WAIT 1500 ns
+COMM
+COMM ==============================================================================================
+COMM   Asynchronous reset deactivated
+COMM ----------------------------------------------------------------------------------------------
+WDIS arst_n 1
+COMM
+COMM ==============================================================================================
+COMM   Wait internal reset deactivated
+COMM ----------------------------------------------------------------------------------------------
+WUDI rst 0
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Apply the delay correction on the MUX SQUID feedback
+COMM   to align the pixel 0' mux_squid_feedback edges with the pixel 0' error signal edges
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_MUX_SQ_FB_DELAY-03D4 W
+COMM
+COMM ==============================================================================================
+COMM   Apply the delay correction on the amp_squid_offset signal
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-03D4 W
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Setting the AMP SQUID offset start value in the linear range 
+COMM   Should be at 3/4 of the range from AMP SQUID V(PHI) caracterization
+COMM   I'm not sure of that ...
+COMM
+WCMD W-C0_AMP_SQ_OFFSET_COARSE(0)-4000 W
+COMM
+WCMD W-C0_AMP_SQ_OFFSET_LSB-0FFF W
+COMM
+WCMD W-C0_AMP_SQ_OFFSET_FINE(0)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(1)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(2)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(3)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(4)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(5)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(6)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(7)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(8)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(9)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(10)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(11)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(12)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(13)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(14)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(15)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(16)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(17)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(18)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(19)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(20)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(21)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(22)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(23)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(24)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(25)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(26)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(27)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(28)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(29)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(30)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(31)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(32)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(33)-0007 W
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Setting AMP SQUID feedback
+COMM ----------------------------------------------------------------------------------------------
+COMM   Setting AMP SQUID offset mode to CLOSED (all columns)
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-AMP_SQ_OFFSET_MODE-2222 W
+COMM ----------------------------------------------------------------------------------------------
+COMM   Setting lock points (set for MUX SQUID feedback but used for AMP SQUID in this mode)
+COMM W-C0_MUX_SQ_LOCK_POINT_V(0)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(1)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(2)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(3)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(4)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(5)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(6)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(7)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(8)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(9)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(10)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(11)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(12)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(13)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(14)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(15)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(16)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(17)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(18)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(19)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(20)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(21)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(22)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(23)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(24)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(25)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(26)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(27)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(28)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(29)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(30)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(31)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(32)-1000 W
+COMM W-C0_MUX_SQ_LOCK_POINT_V(33)-1000 W
+COMM
+COMM ==============================================================================================
+COMM   TEST_PATTERN: writing a table to be applied on C0_MUX_SQ_FB0(0)
+COMM ----------------------------------------------------------------------------------------------
+COMM Region 1/5: Flat @-8192, duration = (1+0)x1 frames
+WCMD W-TEST_PATTERN(0)-0000 W
+WCMD W-TEST_PATTERN(1)-0000 W
+WCMD W-TEST_PATTERN(2)-0000 W
+WCMD W-TEST_PATTERN(3)-0001 W
+COMM Region 2/5: slope @-4096, duration = (1+1)x150 frames 
+WCMD W-TEST_PATTERN(4)-8000 W
+WCMD W-TEST_PATTERN(5)-0001 W
+WCMD W-TEST_PATTERN(6)-0064 W
+WCMD W-TEST_PATTERN(7)-0096 W
+COMM Region 3/5: not used, duration = (1+0)x0 frames
+WCMD W-TEST_PATTERN(8)-0000 W
+WCMD W-TEST_PATTERN(9)-0000 W
+WCMD W-TEST_PATTERN(10)-0000 W
+WCMD W-TEST_PATTERN(11)-0000 W
+COMM Region 4/5: not used, duration = (1+0)x0 frames
+WCMD W-TEST_PATTERN(12)-0000 W
+WCMD W-TEST_PATTERN(13)-0000 W
+WCMD W-TEST_PATTERN(14)-0000 W
+WCMD W-TEST_PATTERN(15)-0000 W
+COMM Region 5/5: not used, duration = (1+0)x0 frames
+WCMD W-TEST_PATTERN(16)-0000 W
+WCMD W-TEST_PATTERN(17)-0000 W
+WCMD W-TEST_PATTERN(18)-0000 W
+WCMD W-TEST_PATTERN(19)-0000 W
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Configuring MUX SQUID feedback
+COMM ----------------------------------------------------------------------------------------------
+COMM   Setting MUX SQUID feedback ON (all columns)
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-MUX_SQ_FB_ON_OFF-1111 W
+COMM ----------------------------------------------------------------------------------------------
+COMM   Setting MUX SQUID feedback mode to PATTERN (column 0)
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_MUX_SQ_FB_MODE(0)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(1)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(2)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(3)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(4)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(5)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(6)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(7)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(8)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(9)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(10)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(11)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(12)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(13)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(14)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(15)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(16)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(17)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(18)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(19)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(20)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(21)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(22)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(23)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(24)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(25)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(26)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(27)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(28)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(29)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(30)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(31)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(32)-0002 W
+WCMD W-C0_MUX_SQ_FB_MODE(33)-0002 W
+COMM
+COMM ==============================================================================================
+COMM   Wait end FPASIM configuration
+COMM ----------------------------------------------------------------------------------------------
+WUDI fpa_conf_busy(0) 0
+WUDI fpa_conf_busy(1) 0
+WUDI fpa_conf_busy(2) 0
+WUDI fpa_conf_busy(3) 0
+COMM
+WAIT 20 us
+COMM
+COMM ==============================================================================================
+COMM   Enable test pattern generation (1 time), Send command DATA_ACQ_MODE to error signal
+COMM ----------------------------------------------------------------------------------------------
+WUDI sync 1
+WCMD W-TEST_PATTERN_ENABLE-0021 W
+WCMD W-DATA_ACQ_MODE-0002 W

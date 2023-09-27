@@ -1,8 +1,9 @@
 COMM **********************************************************************************************
 COMM   Test: Coupling DEMUX/FPASIM simple test
 COMM **********************************************************************************************
-COMM This test is used to characterise the Feedback delay
-COMM
+COMM This test is used to confirm the alignment of the Feedback delay with the row addresses
+COMM In the tes_std_state.mem file the pixel 0 has a specific value.
+COMM In this script the FB0 of the pixel 0 has a specific value.
 COMM
 COMM ==============================================================================================
 COMM   Switch ADC voltage on FPASIM output
@@ -26,42 +27,42 @@ COMM ---------------------------------------------------------------------------
 WUDI rst 0
 COMM
 COMM ==============================================================================================
-COMM   Setting the FB0 to 0 except for pixel 0
+COMM   Setting a specific FB0 for pixel 0
 COMM ----------------------------------------------------------------------------------------------
 WCMD W-C0_MUX_SQ_FB0(0)-03FF W
-WCMD W-C0_MUX_SQ_FB0(1)-0200 W
-WCMD W-C0_MUX_SQ_FB0(2)-0200 W
-WCMD W-C0_MUX_SQ_FB0(3)-0200 W
-WCMD W-C0_MUX_SQ_FB0(4)-0200 W
-WCMD W-C0_MUX_SQ_FB0(5)-0200 W
-WCMD W-C0_MUX_SQ_FB0(6)-0200 W
-WCMD W-C0_MUX_SQ_FB0(7)-0200 W
-WCMD W-C0_MUX_SQ_FB0(8)-0200 W
-WCMD W-C0_MUX_SQ_FB0(9)-0200 W
-WCMD W-C0_MUX_SQ_FB0(10)-0200 W
-WCMD W-C0_MUX_SQ_FB0(11)-0200 W
-WCMD W-C0_MUX_SQ_FB0(12)-0200 W
-WCMD W-C0_MUX_SQ_FB0(13)-0200 W
-WCMD W-C0_MUX_SQ_FB0(14)-0200 W
-WCMD W-C0_MUX_SQ_FB0(15)-0200 W
-WCMD W-C0_MUX_SQ_FB0(16)-0200 W
-WCMD W-C0_MUX_SQ_FB0(17)-0200 W
-WCMD W-C0_MUX_SQ_FB0(18)-0200 W
-WCMD W-C0_MUX_SQ_FB0(19)-0200 W
-WCMD W-C0_MUX_SQ_FB0(20)-0200 W
-WCMD W-C0_MUX_SQ_FB0(21)-0200 W
-WCMD W-C0_MUX_SQ_FB0(22)-0200 W
-WCMD W-C0_MUX_SQ_FB0(23)-0200 W
-WCMD W-C0_MUX_SQ_FB0(24)-0200 W
-WCMD W-C0_MUX_SQ_FB0(25)-0200 W
-WCMD W-C0_MUX_SQ_FB0(26)-0200 W
-WCMD W-C0_MUX_SQ_FB0(27)-0200 W
-WCMD W-C0_MUX_SQ_FB0(28)-0200 W
-WCMD W-C0_MUX_SQ_FB0(29)-0200 W
-WCMD W-C0_MUX_SQ_FB0(30)-0200 W
-WCMD W-C0_MUX_SQ_FB0(31)-0200 W
-WCMD W-C0_MUX_SQ_FB0(32)-0200 W
-WCMD W-C0_MUX_SQ_FB0(33)-0200 W
+WCMD W-C0_MUX_SQ_FB0(1)-0000 W
+WCMD W-C0_MUX_SQ_FB0(2)-0000 W
+WCMD W-C0_MUX_SQ_FB0(3)-0000 W
+WCMD W-C0_MUX_SQ_FB0(4)-0000 W
+WCMD W-C0_MUX_SQ_FB0(5)-0000 W
+WCMD W-C0_MUX_SQ_FB0(6)-0000 W
+WCMD W-C0_MUX_SQ_FB0(7)-0000 W
+WCMD W-C0_MUX_SQ_FB0(8)-0000 W
+WCMD W-C0_MUX_SQ_FB0(9)-0000 W
+WCMD W-C0_MUX_SQ_FB0(10)-0000 W
+WCMD W-C0_MUX_SQ_FB0(11)-0000 W
+WCMD W-C0_MUX_SQ_FB0(12)-0000 W
+WCMD W-C0_MUX_SQ_FB0(13)-0000 W
+WCMD W-C0_MUX_SQ_FB0(14)-0000 W
+WCMD W-C0_MUX_SQ_FB0(15)-0000 W
+WCMD W-C0_MUX_SQ_FB0(16)-0000 W
+WCMD W-C0_MUX_SQ_FB0(17)-0000 W
+WCMD W-C0_MUX_SQ_FB0(18)-0000 W
+WCMD W-C0_MUX_SQ_FB0(19)-0000 W
+WCMD W-C0_MUX_SQ_FB0(20)-0000 W
+WCMD W-C0_MUX_SQ_FB0(21)-0000 W
+WCMD W-C0_MUX_SQ_FB0(22)-0000 W
+WCMD W-C0_MUX_SQ_FB0(23)-0000 W
+WCMD W-C0_MUX_SQ_FB0(24)-0000 W
+WCMD W-C0_MUX_SQ_FB0(25)-0000 W
+WCMD W-C0_MUX_SQ_FB0(26)-0000 W
+WCMD W-C0_MUX_SQ_FB0(27)-0000 W
+WCMD W-C0_MUX_SQ_FB0(28)-0000 W
+WCMD W-C0_MUX_SQ_FB0(29)-0000 W
+WCMD W-C0_MUX_SQ_FB0(30)-0000 W
+WCMD W-C0_MUX_SQ_FB0(31)-0000 W
+WCMD W-C0_MUX_SQ_FB0(32)-0000 W
+WCMD W-C0_MUX_SQ_FB0(33)-0000 W
 COMM
 COMM ==============================================================================================
 COMM   Select pulse shaping
@@ -69,9 +70,15 @@ COMM ---------------------------------------------------------------------------
 WCMD W-C0_PULSE_SHAPING_SELECTION-2000 W
 COMM
 COMM ==============================================================================================
-COMM   Apply a delay equal to 0 on the mux_squid_feedback signal
+COMM   Apply a delay to align the pixel 0' mux_squid_feedback edges with the pixel 0' error signal edges
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_MUX_SQ_FB_DELAY-0000 W
+WCMD W-C0_MUX_SQ_FB_DELAY-03D5 W
+COMM
+COMM ==============================================================================================
+COMM   Apply a delay to align sample the ADC data
+COMM ----------------------------------------------------------------------------------------------
+COMM W-C0_SAMPLING_DELAY-0012 W
+WCMD W-C0_SAMPLING_DELAY-000A W
 COMM
 COMM ==============================================================================================
 COMM   Switch on Squid MUX feedback column 0
@@ -104,20 +111,8 @@ COMM
 WAIT 20 us
 COMM
 COMM ==============================================================================================
-COMM   Activate science data transmit in dump mode
+COMM   Activate science data transmit in error mode
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-DATA_ACQ_MODE-0004 W
-WAIT 200 us
-COMM
-COMM ==============================================================================================
-COMM   Apply a delay to align the pixel 0' mux_squid_feedback edges with the pixel 0' error signal edges
-COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_MUX_SQ_FB_DELAY-03D4 W
-WAIT 20 us
-COMM
-COMM ==============================================================================================
-COMM   Activate science data transmit in dump mode
-COMM ----------------------------------------------------------------------------------------------
-WCMD W-DATA_ACQ_MODE-0004 W
-WAIT 200 us
+WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 30 us
 COMM

@@ -33,17 +33,17 @@ WCMD W-MUX_SQ_FB_ON_OFF-1111 W
 COMM
 COMM 
 COMM ==============================================================================================
-COMM   Configure AMP SQUID lockpoint Offset column 1
-COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_COARSE-08C0 W
-COMM
-COMM ==============================================================================================
 COMM   Configure AMP SQUID DAC LSB column 1
 COMM ----------------------------------------------------------------------------------------------
 WCMD W-C0_AMP_SQ_OFFSET_LSB-0FFF W
 COMM 
 COMM ==============================================================================================
-COMM   Send command set SQ_AMP_OFFSET_MODE to offet for columns 0 to 3
+COMM   Configure AMP SQUID lockpoint Offset column 1
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_AMP_SQ_OFFSET_COARSE-08C0 W
+COMM
+COMM ==============================================================================================
+COMM   Send command set AMP_SQ_OFFSET_MODE to offet for columns 0 to 3
 COMM ----------------------------------------------------------------------------------------------
 WCMD W-AMP_SQ_OFFSET_MODE-1111 W
 COMM 
