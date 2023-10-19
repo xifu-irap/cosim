@@ -1,7 +1,7 @@
 COMM **********************************************************************************************
-COMM   Test: Closed loop mode
+COMM   Test: Testing backward/forward crosstalk using pulse shaping
 COMM **********************************************************************************************
-COMM This test is used to test the close loop mode on the MUX SQUID
+COMM This test is used to simulate the crosstalk with strong pulse shaping
 COMM
 COMM
 COMM ==============================================================================================
@@ -41,9 +41,10 @@ COMM ---------------------------------------------------------------------------
 WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-03D6 W
 COMM
 COMM ----------------------------------------------------------------------------------------------
-COMM   Setting the sampling delay
+COMM   Setting the sampling delay (shortenning the correct delay in order to make some crosstalk)
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_SAMPLING_DELAY-0012 W
+COMM W-C0_SAMPLING_DELAY-0012 W
+WCMD W-C0_SAMPLING_DELAY-000B W
 COMM
 COMM ----------------------------------------------------------------------------------------------
 COMM   Setting BOXCAR LENGTH to 1 sample
@@ -51,10 +52,16 @@ COMM ---------------------------------------------------------------------------
 WCMD W-BOXCAR_LENGTH-0000 W
 COMM
 COMM ==============================================================================================
-COMM   Configuring PULSE SHAPING
+COMM   Configuring PULSE SHAPING (0x0001 => fc=20MHz)
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_PULSE_SHAPING_SELECTION-0000 W
+WCMD W-C0_PULSE_SHAPING_SELECTION-0001 W
 COMM
+COMM
+COMM ==============================================================================================
+COMM   Setting the auto-relock function for column 0 (delay = 512 frames, threshold = 4096)
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_RELOCK_DELAY-0200 W
+WCMD W-C0_RELOCK_THRESHOLD-1000 W
 COMM
 COMM ==============================================================================================
 COMM   Setting the AMP SQUID offset operating point in its linear range 
@@ -100,6 +107,8 @@ WCMD W-C0_AMP_SQ_OFFSET_FINE(33)-0007 W
 COMM
 COMM ----------------------------------------------------------------------------------------------
 COMM   Setting lock points (column 0)
+COMM   From AMP SQUID characterisation the lock point should be 0x0898 ("middle" of the slope).
+COMM   Up to now the loop is not stable with this value (???). I have to reduce to 0x0280.
 COMM
 WCMD W-C0_MUX_SQ_LOCKPOINT_V(0)-0CD0 W
 WCMD W-C0_MUX_SQ_LOCKPOINT_V(1)-0CD0 W
@@ -139,43 +148,43 @@ COMM
 COMM ----------------------------------------------------------------------------------------------
 COMM   Setting FB starting pont FB0 (column 0)
 COMM
-WCMD W-C0_MUX_SQ_FB0(0)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(1)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(2)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(3)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(4)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(5)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(6)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(7)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(8)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(9)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(10)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(11)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(12)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(13)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(14)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(15)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(16)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(17)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(18)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(19)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(20)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(21)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(22)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(23)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(24)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(25)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(26)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(27)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(28)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(29)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(30)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(31)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(32)-0CB0 W
-WCMD W-C0_MUX_SQ_FB0(33)-0CB0 W
+WCMD W-C0_MUX_SQ_FB0(0)-6CAF W
+WCMD W-C0_MUX_SQ_FB0(1)-6995 W
+WCMD W-C0_MUX_SQ_FB0(2)-667B W
+WCMD W-C0_MUX_SQ_FB0(3)-6361 W
+WCMD W-C0_MUX_SQ_FB0(4)-6047 W
+WCMD W-C0_MUX_SQ_FB0(5)-5D2D W
+WCMD W-C0_MUX_SQ_FB0(6)-5A13 W
+WCMD W-C0_MUX_SQ_FB0(7)-56F9 W
+WCMD W-C0_MUX_SQ_FB0(8)-53DF W
+WCMD W-C0_MUX_SQ_FB0(9)-50C5 W
+WCMD W-C0_MUX_SQ_FB0(10)-4DAB W
+WCMD W-C0_MUX_SQ_FB0(11)-4A91 W
+WCMD W-C0_MUX_SQ_FB0(12)-4777 W
+WCMD W-C0_MUX_SQ_FB0(13)-445D W
+WCMD W-C0_MUX_SQ_FB0(14)-4143 W
+WCMD W-C0_MUX_SQ_FB0(15)-3E29 W
+WCMD W-C0_MUX_SQ_FB0(16)-3B0F W
+WCMD W-C0_MUX_SQ_FB0(17)-37F5 W
+WCMD W-C0_MUX_SQ_FB0(18)-34DB W
+WCMD W-C0_MUX_SQ_FB0(19)-31C1 W
+WCMD W-C0_MUX_SQ_FB0(20)-2EA7 W
+WCMD W-C0_MUX_SQ_FB0(21)-2B8D W
+WCMD W-C0_MUX_SQ_FB0(22)-2873 W
+WCMD W-C0_MUX_SQ_FB0(23)-2559 W
+WCMD W-C0_MUX_SQ_FB0(24)-223F W
+WCMD W-C0_MUX_SQ_FB0(25)-1F25 W
+WCMD W-C0_MUX_SQ_FB0(26)-1C0B W
+WCMD W-C0_MUX_SQ_FB0(27)-18F1 W
+WCMD W-C0_MUX_SQ_FB0(28)-15D7 W
+WCMD W-C0_MUX_SQ_FB0(29)-12BD W
+WCMD W-C0_MUX_SQ_FB0(30)-0FA3 W
+WCMD W-C0_MUX_SQ_FB0(31)-0C89 W
+WCMD W-C0_MUX_SQ_FB0(32)-096F W
+WCMD W-C0_MUX_SQ_FB0(33)-0655 W
 COMM
 COMM ----------------------------------------------------------------------------------------------
-COMM   Setting the gain (default value is 0x6E74)
+COMM   Setting the gain (default value is 0x6E74, in this setup it should be 0xBDB3)
 COMM ----------------------------------------------------------------------------------------------
 WCMD W-C0_KNORM(0)-BDB3 W
 WCMD W-C0_KNORM(1)-BDB3 W
@@ -319,8 +328,10 @@ WUDI fpa_conf_busy(2) 0
 WUDI fpa_conf_busy(3) 0
 COMM
 COMM ==============================================================================================
-COMM   Send a pulse on FPASIM column 0 and pixel0
+COMM   Send a pulse on FPASIM column 0 and pixel 2
 COMM ----------------------------------------------------------------------------------------------
 COMM   16 LSB corresponds to pulse heigth
 COMM ----------------------------------------------------------------------------------------------
-WFMP 0 0000_6333
+WAIT 3500 us
+WFMP 0 0200_6333
+COMM

@@ -1,5 +1,5 @@
 COMM **********************************************************************************************
-COMM   Test: Expertise measurement, AMP_SQ V/phi curve
+COMM   Test: Closed loop mode
 COMM **********************************************************************************************
 COMM This test is used to test the close loop mode on the MUX SQUID
 COMM
