@@ -1,0 +1,189 @@
+COMM **********************************************************************************************
+COMM   Test: Coupling DEMUX/FPASIM simple test
+COMM **********************************************************************************************
+COMM This test is used to characterize the sampling delay 
+COMM This is the refence measurement (no correction)
+COMM
+COMM ==============================================================================================
+COMM   Switch ADC voltage on FPASIM output
+COMM ----------------------------------------------------------------------------------------------
+WDIS sw_adc_vin(1) 1
+COMM
+COMM ==============================================================================================
+COMM   Asynchronous reset activated
+COMM ----------------------------------------------------------------------------------------------
+WDIS arst_n 0
+WAIT 1500 ns
+COMM
+COMM ==============================================================================================
+COMM   Asynchronous reset deactivated
+COMM ----------------------------------------------------------------------------------------------
+WDIS arst_n 1
+COMM
+COMM ==============================================================================================
+COMM   Wait internal reset deactivated
+COMM ----------------------------------------------------------------------------------------------
+WUDI rst 0
+COMM
+COMM ==============================================================================================
+COMM   Setting the AMP SQUID offset operating point in its linear range 
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_AMP_SQ_OFFSET_COARSE-037C W
+COMM
+WCMD W-C0_AMP_SQ_OFFSET_LSB-0FFF W
+COMM
+WCMD W-C0_AMP_SQ_OFFSET_FINE(0)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(1)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(2)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(3)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(4)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(5)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(6)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(7)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(8)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(9)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(10)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(11)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(12)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(13)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(14)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(15)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(16)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(17)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(18)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(19)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(20)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(21)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(22)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(23)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(24)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(25)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(26)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(27)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(28)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(29)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(30)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(31)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(32)-0007 W
+WCMD W-C0_AMP_SQ_OFFSET_FINE(33)-0007 W
+COMM
+COMM ----------------------------------------------------------------------------------------------
+COMM   Setting AMP SQUID offset mode to offset (all columns)
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-AMP_SQ_OFFSET_MODE-1111 W
+COMM
+COMM ==============================================================================================
+COMM   Setting MUX SQUID feedback to ON (all columns)
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-MUX_SQ_FB_ON_OFF-1111 W
+COMM
+COMM ----------------------------------------------------------------------------------------------
+COMM   Setting MUX SQUID feedback mode to OPEN LOOP (column 0) => FB0 at the output
+COMM
+WCMD W-C0_MUX_SQ_FB_MODE(0)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(1)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(2)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(3)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(4)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(5)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(6)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(7)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(8)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(9)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(10)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(11)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(12)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(13)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(14)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(15)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(16)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(17)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(18)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(19)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(20)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(21)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(22)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(23)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(24)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(25)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(26)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(27)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(28)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(29)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(30)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(31)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(32)-0000 W
+WCMD W-C0_MUX_SQ_FB_MODE(33)-0000 W
+COMM
+COMM ----------------------------------------------------------------------------------------------
+COMM   Setting FB starting point FB0 (column 0)
+COMM
+WCMD W-C0_MUX_SQ_FB0(0)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(1)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(2)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(3)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(4)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(5)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(6)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(7)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(8)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(9)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(10)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(11)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(12)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(13)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(14)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(15)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(16)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(17)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(18)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(19)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(20)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(21)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(22)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(23)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(24)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(25)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(26)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(27)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(28)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(29)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(30)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(31)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(32)-6CB0 W
+WCMD W-C0_MUX_SQ_FB0(33)-6CB0 W
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Wait end FPASIM configuration
+COMM ----------------------------------------------------------------------------------------------
+WUDI fpa_conf_busy(0) 0
+WUDI fpa_conf_busy(1) 0
+WUDI fpa_conf_busy(2) 0
+WUDI fpa_conf_busy(3) 0
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Setting te boxcar length to a single sample
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-BOXCAR_LENGTH-0000 W
+COMM
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Apply a delay on the ADC data of column 0
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-C0_SAMPLING_DELAY-0000 W  
+COMM
+COMM ==============================================================================================
+COMM   Activate science data transmit in ADC mode
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 10 us
+COMM
+COMM ==============================================================================================
+COMM   Activate science data transmit in dump mode
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0004 W
+WAIT 180 us
+COMM

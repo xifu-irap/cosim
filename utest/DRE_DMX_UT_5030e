@@ -146,7 +146,7 @@ WCMD W-C0_MUX_SQ_LOCKPOINT_V(32)-0CD0 W
 WCMD W-C0_MUX_SQ_LOCKPOINT_V(33)-0CD0 W
 COMM
 COMM ----------------------------------------------------------------------------------------------
-COMM   Setting FB starting pont FB0 (column 0)
+COMM   Setting FB starting point FB0 (column 0)
 COMM
 WCMD W-C0_MUX_SQ_FB0(0)-6CAF W
 WCMD W-C0_MUX_SQ_FB0(1)-6995 W
@@ -263,7 +263,7 @@ WCMD W-AMP_SQ_OFFSET_MODE-1111 W
 COMM
 COMM
 COMM ==============================================================================================
-COMM   Setting MUX SQUID feedback to ON (all columns) => FB0 at feedback output
+COMM   Setting MUX SQUID feedback to ON (all columns)
 COMM ----------------------------------------------------------------------------------------------
 WCMD W-MUX_SQ_FB_ON_OFF-1111 W
 COMM

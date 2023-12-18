@@ -430,8 +430,9 @@ add wave -group "0 - dac_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:in
 add wave -group "0 - sync_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:inst_fpasim_top:inst_sync_top:sync_ry
 
 add wave -group "0 - system_fpasim_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:o_frame_p
-add wave -group "0 - system_fpasim_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:o_clk_frame
-add wave -group "0 - system_fpasim_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:o_clk_ref
+## The following lines have been removed by LR on 06/12/2023
+##add wave -group "0 - system_fpasim_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:o_clk_frame
+##add wave -group "0 - system_fpasim_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_system_fpasim_top:o_clk_ref
 
 add wave -group "0 - dac3283_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_dac3283_top:dac0_valid
 add wave -group "0 - dac3283_top"  sim/:top_dmx_tb:G_column_mgt(0):I_fpasim_model:inst_fpga_system_fpasim:inst_dac3283_top:dac0
